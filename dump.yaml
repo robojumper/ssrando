@@ -1982,7 +1982,7 @@ items:
 - \Eldin\Volcano\Hot Cave\Exit to Summit
 - \Eldin\Volcano\Ascent\Trial Gate Exit
 - \Eldin\Volcano\Past Slide\Vent Exit near Ascent
-- \Eldin\Volcano\East\Exit to Bokoblin Base
+- \Eldin\Volcano\First Room\Exit to Bokoblin Base
 - \Eldin\Bokoblin Base\Prison\Exit
 - \Eldin\Mogma Turf\Pre Vent\First Vent
 - \Eldin\Mogma Turf\Past Vent\Second Vent
@@ -2271,7 +2271,7 @@ items:
 - \Eldin\Volcano\Hot Cave\Entrance from Summit
 - \Eldin\Volcano\Ascent\Trial Gate Entrance
 - \Eldin\Volcano\Hot Cave\Vent Entrance near Hot Cave
-- \Eldin\Volcano\East\Entrance from Bokoblin Base
+- \Eldin\Volcano\First Room\Entrance from Bokoblin Base
 - \Eldin\Bokoblin Base\Prison\Entrance
 - \Eldin\Mogma Turf\Pre Vent\Entrance
 - \Eldin\Volcano\Thrill Digger Cave\Entrance
@@ -3191,9 +3191,12 @@ areas:
               allowed_time_of_day: 1
               can_save: false
               can_sleep: false
-              entrances: []
+              entrances:
+              - Entrance from Bokoblin Base
               exits:
+                \Eldin\Volcano\Entry: 'True'
                 \Eldin\Volcano\East: \Eldin\Volcano\First Room\Blow up Rock to East
+                Exit to Bokoblin Base: 'True'
               hint_region: Eldin Volcano
               locations:
                 Chest behind Bombable Wall in First Room: 'True'
@@ -3211,7 +3214,6 @@ areas:
               entrances:
               - Volcano East Statue Entrance
               - First Vent from Mogma Turf
-              - Entrance from Bokoblin Base
               exits:
                 Volcano East / Volcano Ascent Statue Exit: \Eldin\Volcano\East\Unlock
                   Statue
@@ -3221,7 +3223,6 @@ areas:
                   to East
                 \Eldin\Volcano\Past Mogma Turf: \Eldin\Volcano\Past Mogma Turf\Unlock
                   Shortcut to Pre Turf
-                Exit to Bokoblin Base: 'True'
               hint_region: Eldin Volcano
               locations:
                 \Eldin\Volcano\First Room\Blow up Rock to East: Bomb Bag
@@ -11136,7 +11137,7 @@ exits:
     vanilla: Eldin Volcano - Vent Entrance near Hot Cave
     req_index: 1960
     short_name: Eldin Volcano - Vent Exit near Ascent
-  \Eldin\Volcano\East\Exit to Bokoblin Base:
+  \Eldin\Volcano\First Room\Exit to Bokoblin Base:
     type: exit
     vanilla: Bokoblin Base - Entrance
     req_index: 1961
@@ -13279,7 +13280,7 @@ entrances:
     allowed_time_of_day: 1
     req_index: 2245
     short_name: Eldin Volcano - Vent Entrance near Hot Cave
-  \Eldin\Volcano\East\Entrance from Bokoblin Base:
+  \Eldin\Volcano\First Room\Entrance from Bokoblin Base:
     type: entrance
     province: Eldin Province
     stage: F200
