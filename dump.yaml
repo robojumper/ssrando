@@ -392,7 +392,6 @@ items:
 - Lightning Node End with Bombs Trick
 - Cactus Bomb Whip Trick
 - Skipper's Retreat Fast Clawshots Trick
-- Pirate Stronghold - Beetle Pillar Checks Trick
 - Skyview - Spider Roll Trick
 - Skyview Slingshot Shot Trick
 - Earth Temple - Keese Yeet Trick
@@ -6537,10 +6536,8 @@ areas:
               hint_region: Lanayru Sand Sea
               locations:
                 Unlock Statue: 'True'
-                Rupee on West Sea Pillar: "(\\Beetle & Pirate Stronghold - Beetle\
-                  \ Pillar Checks Trick) | \\Quick Beetle"
-                Rupee on East Sea Pillar: "(\\Beetle & Pirate Stronghold - Beetle\
-                  \ Pillar Checks Trick) | \\Quick Beetle"
+                Rupee on West Sea Pillar: \Quick Beetle
+                Rupee on East Sea Pillar: \Quick Beetle
                 Rupee on Bird Statue Pillar or Nose: \Beetle
               name: \Lanayru\Lanayru Sand Sea\Pirate Stronghold
               sub_areas:
