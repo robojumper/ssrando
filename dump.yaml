@@ -379,6 +379,8 @@ items:
 - Thunderhead - East Island Dive Trick
 - Gym's Rope Jump Trick
 - Early Lake Floria - Fence Hop Trick
+- Great Tree - Clawshot Vines Trick
+- Great Tree - Chest Drop Trick
 - Early Lake Floria - Swordless Rope Floria Trick
 - Faron - Bokoblin Luring Trick
 - Stuttersprint Trick
@@ -3980,7 +3982,8 @@ areas:
               \ | \\Faron\\Faron Woods\\Unlock Viewing Platform Statue"
             Trial Gate Exit: \Faron\Faron Woods\Open Trial Gate
             \Faron\Faron Woods\Great Tree\Near Underwater Hole: Water Dragon's Scale
-            \Faron\Faron Woods\Great Tree\Platforms: Clawshots
+            \Faron\Faron Woods\Great Tree\Platforms: "Clawshots & Great Tree - Clawshot\
+              \ Vines Trick"
             \Faron\Faron Woods\Clawshot Target Branch: Clawshots
             Lake Floria Dive: "\\Faron\\Faron Woods\\Open Door to Lake Floria | \\\
               Early Lake Floria Tricks"
@@ -4223,8 +4226,9 @@ areas:
                   exits:
                     \Faron\Faron Woods\Great Tree\Lower Area: \Faron\Faron Woods\Great
                       Tree\Upper Area\Remove Void Plane
-                    \Faron\Faron Woods\Great Tree\Lower Area\Path to Chest: \Faron\Faron
-                      Woods\Great Tree\Upper Area\Remove Void Plane
+                    \Faron\Faron Woods\Great Tree\Lower Area\Path to Chest: "\\Faron\\\
+                      Faron Woods\\Great Tree\\Upper Area\\Remove Void Plane & Great\
+                      \ Tree - Chest Drop Trick"
                     Exit to Flooded Great Tree: 'True'
                     Upper Exit to Platforms: 'True'
                     Exit to Top: 'True'
