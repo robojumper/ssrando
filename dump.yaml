@@ -13021,3 +13021,25 @@ dungeon_completion_requirements:
   Ancient Cistern: \Ancient Cistern\Flame Room\Farore's Flame
   Sandship: \Sandship\Boss Room\Nayru's Flame
   Fire Sanctuary: \Fire Sanctuary\Flame Room\Din's Flame
+placement_limits:
+  dungeon_small_keys:
+    'Skyview Small Key #0': \Skyview\Main
+    'Skyview Small Key #1': \Skyview\Main
+    Lanayru Mining Facility Small Key: \Lanayru Mining Facility\Main
+    'Ancient Cistern Small Key #0': \Ancient Cistern\Main
+    'Ancient Cistern Small Key #1': \Ancient Cistern\Main
+    'Sandship Small Key #0': \Sandship\Main
+    'Sandship Small Key #1': \Sandship\Main
+    'Fire Sanctuary Small Key #0': \Fire Sanctuary\Main
+    'Fire Sanctuary Small Key #1': \Fire Sanctuary\Main
+    'Fire Sanctuary Small Key #2': \Fire Sanctuary\Main
+    Sky Keep Small Key: \Sky Keep
+  dungeon_boss_keys:
+    Skyview Boss Key: \Skyview
+    Earth Temple Boss Key: \Earth Temple
+    Lanayru Mining Facility Boss Key: \Lanayru Mining Facility
+    Ancient Cistern Boss Key: \Ancient Cistern
+    Sandship Boss Key: \Sandship
+    Fire Sanctuary Boss Key: \Fire Sanctuary
+  lanayru_caves_small_key:
+    Lanayru Caves Small Key: \Lanayru\Caves

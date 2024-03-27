@@ -1,4 +1,11 @@
 from logic.constants import *
+from logic.placements import *
+
+dumped_placement_restrictions = {
+    "dungeon_small_keys": DUNGEON_SMALL_KEYS_RESTRICTION,
+    "dungeon_boss_keys": DUNGEON_BOSS_KEYS_RESTRICTION,
+    "lanayru_caves_small_key": CAVES_KEY_RESTRICTION,
+}
 
 
 def dump_constants(short_to_full):
@@ -17,6 +24,10 @@ def dump_constants(short_to_full):
         },
         "dungeon_completion_requirements": {
             k: short_to_full(v) for k, v in DUNGEON_FINAL_CHECK.items()
+        },
+        "placement_limits": {
+            k: v(short_to_full).item_placement_limit
+            for k, v in dumped_placement_restrictions.items()
         },
     }
 
