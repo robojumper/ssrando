@@ -101,10 +101,7 @@
   command: open-thunderhead
   type: singlechoice
   bits: 2
-  choices:
-    - Ballad
-    # - Harp and Ballad
-    - Open
+  choices: 2
   default: Ballad
   help: "Determines how the Thunderhead is unlocked.
         **Ballad**: the Thunderhead opens when the Ballad of the Goddess song is found.
