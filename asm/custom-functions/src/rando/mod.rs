@@ -4,7 +4,7 @@
 // add `#[no_mangle]` and add a .global *symbolname* to custom_funcs.asm
 
 use core::{
-    ffi::{c_char, c_ushort, c_void},
+    ffi::{c_char, c_int, c_ushort, c_void},
     ptr, slice,
 };
 
@@ -275,6 +275,12 @@ extern "C" fn rando_text_command_handler(
                 (*_event_flow_mgr).result_from_previous_check = tadtone_groups_left;
             }
         },
+        76 => {
+            // set numeric arg0 to number of keys of area in param1
+            // we need to add one, the key counter is only incremented *after* the textbox
+            let keys = DungeonflagManager::get_global_key_count(flow_element.param1) + 1;
+            text_manager_set_num_args(&[keys.into()]);
+        },
         _ => (),
     }
 }
@@ -492,4 +498,35 @@ extern "C" fn get_glow_color(item_id: u32) -> u32 {
         }
     }
     4
+}
+
+#[link_section = "data"]
+#[no_mangle]
+static mut HERO_MODE_OPTIONS: u8 = 0;
+
+#[no_mangle]
+pub fn has_upgraded_skyward_strike() -> c_int {
+    if unsafe { HERO_MODE_OPTIONS } & 0b001 != 0 {
+        1
+    } else {
+        0
+    }
+}
+
+#[no_mangle]
+pub fn has_fast_air_meter_drain() -> c_int {
+    if unsafe { HERO_MODE_OPTIONS } & 0b010 != 0 {
+        1
+    } else {
+        0
+    }
+}
+
+#[no_mangle]
+pub fn has_heart_drops_enabled() -> c_int {
+    if unsafe { HERO_MODE_OPTIONS } & 0b100 != 0 {
+        1
+    } else {
+        0
+    }
 }
