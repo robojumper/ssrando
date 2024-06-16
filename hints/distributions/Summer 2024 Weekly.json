@@ -12,6 +12,7 @@
       {"location": "Upper Skyloft - Fledge's Crystals",                     "type": "always"},
       {"location": "Lanayru Sand Sea - Skipper's Retreat - Chest in Shack", "type": "always"},
       {"location": "Faron Woods - Item behind Lower Bombable Rock",         "type": "sometimes"},
+      {"location": "Lanayru Desert - Chest on top of Lanayru Mining Facility", "type": "sometimes"},
       {"location": "Earth Temple - Rupee in Lava Tunnel",                   "type": "sometimes"},
       {"location": "Ancient Cistern - Rupee under Lilypad",                 "type": "sometimes"},
       {"location": "Fire Sanctuary - Rescue Second Trapped Mogma",          "type": "sometimes"},
