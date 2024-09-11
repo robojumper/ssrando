@@ -30,6 +30,7 @@ class AdditionalInfo:
     randomized_start_entrance: dict[str, str]
     randomized_start_statues: dict[str, str]
     known_locations: List[EIN]
+    puzzles: Any
 
 
 class LogicUtils(Logic):
@@ -58,6 +59,7 @@ class LogicUtils(Logic):
         self.randomized_start_entrance = additional_info.randomized_start_entrance
         self.randomized_start_statues = additional_info.randomized_start_statues
         self.known_locations = additional_info.known_locations
+        self.puzzles = additional_info.puzzles
 
     def check(self, useroutput):
         full_inventory = Logic.fill_inventory(self.requirements, EMPTY_INV)
@@ -188,7 +190,7 @@ class LogicUtils(Logic):
 
             sots_loc = self.placement.items[item]
 
-            if sots_loc == START_ITEM:
+            if sots_loc == START_ITEM or sots_loc == UNPLACED_ITEM:
                 continue
 
             hint_region = self.areas.checks[sots_loc]["hint_region"]
