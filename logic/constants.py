@@ -947,6 +947,50 @@ RANDOM_STARTING_ITEMS = [
     # SAILCLOTH
 ]
 
+# 1 random boss key
+# 1 random small key
+# 1 completely random item
+
+# 50% chance for a triforce
+RANDOM_STARTING_TRIFORCES = [
+    "Triforce of Courage",
+    "Triforce of Power",
+    "Triforce of Wisdom",
+]
+
+# 1 hidden item
+RANDOM_STARTING_ITEMS_HIDDEN = [
+    WATER_DRAGON_SCALE,
+    FIRESHIELD_EARRINGS,
+    PROGRESSIVE_MITTS,
+]
+
+# 1 "currency"
+RANDOM_STARTING_CURRENCY = [
+    GRATITUDE_CRYSTAL_PACK,
+    GROUP_OF_TADTONES,
+    PROGRESSIVE_WALLET,
+]
+
+# 50% chance for 1 b-wheel item
+RANDOM_STARTING_ITEMS_B_WHEEL = [
+    PROGRESSIVE_BOW,
+    PROGRESSIVE_BEETLE,
+    PROGRESSIVE_SLINGSHOT,
+    BOMB_BAG,
+    CLAWSHOTS,
+    WHIP,
+    GUST_BELLOWS,
+]
+
+# 50% chance for 1 minus-wheel item / harp
+RANDOM_STARTING_ITEMS_OTHER_ACTIVE = [
+    EMPTY_BOTTLE,
+    GODDESS_HARP,
+    LANAYRU_CAVES,
+]
+
+
 ALLOWED_STARTING_ITEMS = (
     ITEM_FLAGS
     | PROGRESSIVE_SWORDS

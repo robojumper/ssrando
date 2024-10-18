@@ -122,7 +122,7 @@
     type: textadd
     unk1: 5
     unk2: 1
-    text: "You got a group of <y<Tadtones>>!\nOnly <r<<numeric arg0> >> left to find!"
+    text: "You got a group of <y<Tadtones>>!\nHow many left?"
   - name: Show some Tadtones Collected text
     type: flowadd
     flow:
@@ -170,6 +170,14 @@
     index: 531
     flow:
       next: -1
+  - name: Remove info
+    type: textpatch
+    index: 127
+    text: "How many pieces exactly?"
+  - name: Remove info 2
+    type: textpatch
+    index: 128
+    text: "How many pieces exactly?"
   - name: Remove Triforce of Wisdom Scene change (2nd part)
     type: flowpatch
     index: 532
@@ -309,11 +317,11 @@
   - name: Single Gratitude crystal counter
     type: textpatch
     index: 45 # \x0e\x02\x03\x06\x00\x00\xcd is for showing numeric arg0
-    text: "You got <r<five>> <y<Gratitude Crystals>>!\nThat is <r<<numeric arg1> >>in Total!"
+    text: "You got <r<five>> <y<Gratitude Crystals>>!\nThat is how many total again?"
   - name: Single Gratitude crystal counter
     type: textpatch
     index: 62 # \x0e\x02\x03\x06\x00\x00\xcd is for showing numeric arg0
-    text: "You got <r<one>> <y<Gratitude Crystal>>!\nThat is <r<<numeric arg1> >>in Total!"
+    text: "You got <r<one>> <y<Gratitude Crystal>>!\nThat is how many total again?"
   - name: Zelda dowsing in Key Piece
     type: flowpatch
     index: 677
@@ -826,10 +834,7 @@
   - name: Item Status Text
     type: textadd
     unk1: 2
-    text: "<ye<Lanayru Caves Small Key>>: <string arg0>
-          \n<y<Spiral Charge>>: <string arg1>
-          \n<y<Life Tree Fruit>>: <string arg2>
-          \n<y<Group of Tadtones>>: <numeric arg0>"
+    text: "Master <heroname>, I detect a 95% chance\nthat you are trying to break the rules."
   - name: Display Item Status Text
     type: flowadd
     flow:

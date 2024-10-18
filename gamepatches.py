@@ -2373,11 +2373,7 @@ class GamePatcher:
                         "name": f"{dungeon} Status Text",
                         "type": "textadd",
                         "unk1": 2,
-                        "text": (
-                            f"{DUNGEON_COLORS[dungeon] + dungeon}>>: <string arg2> \nSmall Keys: <numeric arg0> \nBoss Key: <string arg0> \nDungeon Map: <string arg1>"
-                            if dungeon != ET
-                            else f"{DUNGEON_COLORS[dungeon] + dungeon}>>: <string arg2> \nKey Pieces: <numeric arg0> \nBoss Key: <string arg0> \nDungeon Map: <string arg1>"
-                        ),
+                        "text": "Master <heroname>, I do not have\nany information.",
                     }
                 )
             else:
@@ -2386,7 +2382,7 @@ class GamePatcher:
                         "name": "Sky Keep Status Text",
                         "type": "textadd",
                         "unk1": 2,
-                        "text": f"{DUNGEON_COLORS[SK]}Sky Keep>>\nSmall Keys: <numeric arg0>\n\nDungeon Map: <string arg1>",
+                        "text": "Master <heroname>, I do not have\nany information.",
                     }
                 )
 
@@ -2581,9 +2577,9 @@ class GamePatcher:
                     "unk1": 5,
                     "unk2": 1,
                     "text": (
-                        f"You got a {dungeon_and_color} Small Key!\nYou now have <r<<numeric arg0> >>of them!"
+                        f"You got a {dungeon_and_color} Small Key!\nHow many total is that?"
                         if dungeon != LMF
-                        else f"You got a {dungeon_and_color} Small\nKey! You now have <r<<numeric arg0> >>of them!"
+                        else f"You got a {dungeon_and_color} Small\nKey! How many total is that?"
                     ),
                 }
             )

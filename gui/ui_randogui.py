@@ -2183,7 +2183,7 @@ class Ui_MainWindow(object):
         self.label_for_option_starting_bottles.setText(QCoreApplication.translate("MainWindow", u"Starting Empty Bottles", None))
         self.label_for_option_starting_crystal_packs.setText(QCoreApplication.translate("MainWindow", u"Starting Gratitude Crystal Packs", None))
         self.label_for_option_starting_tadtones.setText(QCoreApplication.translate("MainWindow", u"Starting Groups of Tadtones", None))
-        self.option_random_starting_item.setText(QCoreApplication.translate("MainWindow", u"Start with Random Progress Item", None))
+        self.option_random_starting_item.setText(QCoreApplication.translate("MainWindow", u"Start with Random Items", None))
         self.option_start_with_hylian_shield.setText(QCoreApplication.translate("MainWindow", u"Start with Hylian Shield", None))
         self.option_full_starting_wallet.setText(QCoreApplication.translate("MainWindow", u"Start with Full Wallet", None))
         self.option_max_starting_bugs.setText(QCoreApplication.translate("MainWindow", u"Maximum Starting Bugs", None))

@@ -2181,7 +2181,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>Start with Random Progress Item</string>
+              <string>Start with Random Items</string>
              </property>
             </widget>
            </item>

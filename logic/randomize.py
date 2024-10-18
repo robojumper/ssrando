@@ -287,17 +287,63 @@ class Rando:
             else:
                 starting_items.add(item)
 
+        def add_random_item_from_list(items: List[str]):
+
+            def try_add_random_item_internal(item: str):
+                if item in EXTENDED_ITEM.items_list:
+                    if item in starting_items:
+                        return False
+                    else:
+                        starting_items.add(item)
+                        return True
+                else:
+                    i = 0
+                    while True:
+                        prog_item = number(item, i)
+                        if prog_item not in EXTENDED_ITEM.items_list:
+                            return False
+                        elif prog_item in starting_items:
+                            return False
+                        else:
+                            starting_items.add(prog_item)
+                            return True
+
+            tries = 0
+            while tries < 100:
+                ok = try_add_random_item_internal(
+                    self.rng.choice(items)
+                )
+                if ok:
+                    return True
+                tries += 1
+            print("failed to add any from", list)
+
         if self.options["random-starting-item"]:
-            possible_random_starting_items = [
-                item
-                for item in RANDOM_STARTING_ITEMS
-                if item not in self.options["starting-items"]
-            ]
-            if len(possible_random_starting_items) > 0:
-                random_item = self.rng.choice(possible_random_starting_items)
-                if random_item not in EXTENDED_ITEM.items_list:
-                    random_item = number(random_item, 0)
-                starting_items.add(random_item)
+            BK_LIST = [BOSS_KEY[d] for d in self.required_dungeons]
+            SK_LIST = [SMALL_KEY[d] for d in self.required_dungeons]
+
+            add_random_item_from_list(BK_LIST)
+            add_random_item_from_list(SK_LIST)
+            add_random_item_from_list(RANDOM_STARTING_ITEMS_HIDDEN)
+            add_random_item_from_list(RANDOM_STARTING_CURRENCY)
+            if self.rng.random() < 0.5:
+                add_random_item_from_list(RANDOM_STARTING_ITEMS_B_WHEEL)
+            if self.rng.random() < 0.5:
+                add_random_item_from_list(RANDOM_STARTING_ITEMS_OTHER_ACTIVE)
+            if self.rng.random() < 0.5:
+                add_random_item_from_list(RANDOM_STARTING_TRIFORCES)
+
+            add_random_item_from_list(
+                [
+                    *RANDOM_STARTING_ITEMS_HIDDEN,
+                    *RANDOM_STARTING_CURRENCY,
+                    *RANDOM_STARTING_ITEMS_B_WHEEL,
+                    *RANDOM_STARTING_ITEMS_OTHER_ACTIVE,
+                    *RANDOM_STARTING_TRIFORCES,
+                    *BK_LIST,
+                    *SK_LIST,
+                ]
+            )
 
         if self.options["map-mode"] == "Removed":
             self.placement.add_unplaced_items(set(ALL_MAPS) - starting_items)
