@@ -468,6 +468,16 @@ blr
 ; dont do it
 nop
 
+; no guide
+.org 0x8024619c
+nop
+.org 0x802461b0
+nop
+.org 0x802461d0
+nop
+.org 0x802461d4
+li r0, 0
+
 .close
 
 .open "d_lyt_file_selectNP.rel"
