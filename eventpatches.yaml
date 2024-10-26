@@ -178,6 +178,26 @@
     type: textpatch
     index: 128
     text: "How many pieces exactly?"
+  - name: Remove info complete
+    type: textpatch
+    index: 7
+    text: "How many pieces exactly?"
+  - name: Remove wallets text 1
+    type: textpatch
+    index: 142
+    text: "You got a Wallet.\nBut how many Rupees does it hold?"
+  - name: Remove wallets text 2
+    type: textpatch
+    index: 143
+    text: "You got a Wallet.\nBut how many Rupees does it hold?"
+  - name: Remove wallets text 3
+    type: textpatch
+    index: 144
+    text: "You got a Wallet.\nBut how many Rupees does it hold?"
+  - name: Remove wallets text 4
+    type: textpatch
+    index: 145
+    text: "You got a Wallet.\nBut how many Rupees does it hold?"
   - name: Remove Triforce of Wisdom Scene change (2nd part)
     type: flowpatch
     index: 532
