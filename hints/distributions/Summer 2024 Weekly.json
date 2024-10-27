@@ -6,7 +6,9 @@
   },
   "banned_stones": [
       "Lanayru Sand Sea - Gossip Stone in Shipyard",
-      "Temple of Time - Gossip Stone in Temple of Time Area"
+      "Temple of Time - Gossip Stone in Temple of Time Area",
+      "Eldin Volcano - Gossip Stone in Lower Platform Cave",
+      "Eldin Volcano - Gossip Stone in Upper Platform Cave"
   ],
   "added_locations": [
     {"location": "Upper Skyloft - Fledge's Crystals",                     "type": "always"},
@@ -19,7 +21,8 @@
     {"location": "Lanayru Mining Facility - Boss Key Chest",              "type": "sometimes"},
     {"location": "Lanayru Gorge - Digging Spot",                          "type": "sometimes"},
     {"location": "Central Skyloft - Peater/Peatrice's Crystals",          "type": "sometimes"},
-    {"location": "Sealed Grounds - Zelda's Blessing",                     "type": "always"}
+    {"location": "Faron Woods - Kikwi Elder's Reward",                    "type": "sometimes"},
+    {"location": "Batreaux's House - 50 Crystals",                        "type": "sometimes"}
   ],
   "removed_locations": [
     "Thunderhead - Isle of Songs - Strike Crest with White Sword",
@@ -33,7 +36,9 @@
     "Fire Sanctuary - Chest after Bombable Wall",
     "Sandship - Heart Container",
     "Lanayru Desert - Fire Node - Shortcut Chest",
-    "Lanayru Desert - Secret Passageway Chest"
+    "Lanayru Desert - Secret Passageway Chest",
+    "Central Skyloft - Item in Bird Nest",
+    "Anscient Cistern - Boss Key Chest"
   ],
   "added_items": [
     {"name": "Triforce of Courage", "amount": 1},
