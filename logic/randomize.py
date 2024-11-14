@@ -298,7 +298,7 @@ class Rando:
                         return True
                 else:
                     i = 0
-                    while True:
+                    while i < ITEM_COUNTS[item]:
                         prog_item = number(item, i)
                         if prog_item not in EXTENDED_ITEM.items_list:
                             return False
@@ -310,9 +310,7 @@ class Rando:
 
             tries = 0
             while tries < 100:
-                ok = try_add_random_item_internal(
-                    self.rng.choice(items)
-                )
+                ok = try_add_random_item_internal(self.rng.choice(items))
                 if ok:
                     return True
                 tries += 1
