@@ -75,6 +75,7 @@ class LogicUtils(Logic):
                 }
             ),
         )
+        self.importance = self.calculate_importance()
 
     def check(self, useroutput):
         full_inventory = Logic.fill_inventory(self.requirements, EMPTY_INV)
@@ -101,6 +102,11 @@ class LogicUtils(Logic):
             item = next(iter(set(INVENTORY_ITEMS) - set(self.placement.items)))
             raise useroutput.GenerationFailed(
                 f"Item {item} has not been handled by the randomizer."
+            )
+
+        if not self.test_importance_validity():
+            raise useroutput.GenerationFailed(
+                "Hint Importance error: Could not reach Demise without 'not required' items."
             )
 
     @cache
@@ -269,6 +275,8 @@ class LogicUtils(Logic):
         # Use flattened requirements for more efficient aggregation
         requirements = self.flattened_requirements.copy()
         items_to_remove = set()
+        first_pass_usefuls = []
+        can_reuse_first_pass = True
         if exclude_redundant_copies:
             # First, check for redundancies in items that are only useful for one copy
             only_useful_once = [
@@ -286,74 +294,105 @@ class LogicUtils(Logic):
                         items_to_remove.add(item)
                         requirements[EXTENDED_ITEM[item]] = DNFInventory(False)
 
-            REVERSE_BATREAUX_LIST = reversed(self.locations_by_hint_region(BATREAUX))
-            max_batreaux_reward = None
-            other_max_batreaux_reward = None
+            # Perform a first-pass aggregation to determine useful items with the above copies removed
+            first_pass_usefuls = [
+                loc
+                for i in self.aggregate_requirements(
+                    requirements, self.full_inventory, idx
+                )
+                if (loc := EXTENDED_ITEM.get_item_name(i)) in INVENTORY_ITEMS
+                and loc not in items_to_remove
+            ]
+
+            REVERSE_BATREAUX_LIST = list(
+                reversed(self.locations_by_hint_region(BATREAUX))
+            )
+            WALLET_LOCKED_BEEDLE = [
+                self.areas.short_to_full(beedle_check)
+                for beedle_check in SORTED_BEEDLE_CHECKS[:4]
+            ]
+            CRYSTALS = list(GRATITUDE_CRYSTAL_PACKS.keys())
+            WALLETS = list(PROGRESSIVE_WALLETS.keys()) + list(EXTRA_WALLETS.keys())
+
+            # Go top-down through the list of Batreaux's rewards and find
+            # the first one that hard-locks future crystal packs.
+            banned_items = []
+            batreaux_crystals = []
             for index, loc in enumerate(REVERSE_BATREAUX_LIST):
-                if loc not in self.banned:
-                    max_batreaux_reward = loc
-                    match index:
-                        case 1:  # Bat 70 second reward
-                            # Include normal bat 70
-                            other_max_batreaux_reward = REVERSE_BATREAUX_LIST[2]
-                        case 2:  # Bat 70
-                            # Include bat 70 second reward
-                            other_max_batreaux_reward = REVERSE_BATREAUX_LIST[1]
-                        case 6:  # Bat 30 chest
-                            # Include normal bat 30
-                            other_max_batreaux_reward = REVERSE_BATREAUX_LIST[7]
-                        case 7:  # Bat 30
-                            # Include bat 30 chest
-                            other_max_batreaux_reward = REVERSE_BATREAUX_LIST[6]
-                    break
+                reward_item = self.placement.locations[loc]
+                # We don't care about crystal packs since they don't count as something useful on their own
+                # (and they definitely won't be the *highest* Batreaux reward to lock another crystal pack)
+                if reward_item in CRYSTALS:
+                    batreaux_crystals.append(reward_item)
+                    continue
 
-            if max_batreaux_reward is not None:
-                max_bat = [max_batreaux_reward]
-                if other_max_batreaux_reward is not None:
-                    max_bat.append(other_max_batreaux_reward)
-
-                # We need to filter out items that don't exist in EXTENDED_ITEM
-                banned_items = []
-                for loc in max_bat:
+                if reward_item in first_pass_usefuls:
+                    # We've found a progress item, so add it to the list of forbidden items
+                    # to test the crystal packs against
+                    banned_items.append(reward_item)
+                    # Consider Bat 30 / Bat 70 too if the 30 chest / 70 2nd reward are the first encountered
                     if (
-                        item := self.placement.locations[loc]
-                    ) in POTENTIALLY_USEFUL_ITEMS:
-                        banned_items.append(item)
-
-                if banned_items:
-                    for crystal_pack in self.filter_locked_by_items(
-                        list(GRATITUDE_CRYSTAL_PACKS.keys()),
-                        banned_items,
+                        index == 1
+                        or index == 5
+                        and (
+                            other_item := self.placement.locations[
+                                REVERSE_BATREAUX_LIST[index + 1]
+                            ]
+                        )
+                        in first_pass_usefuls
                     ):
-                        # Crystal packs that logically come after the max Batreaux reward(s) are redundant
-                        items_to_remove.add(crystal_pack)
-                        requirements[EXTENDED_ITEM[crystal_pack]] = DNFInventory(False)
+                        banned_items.append(other_item)
 
-            WALLET_LOCKED_BEEDLE = SORTED_BEEDLE_CHECKS[:4]
-            max_beedle = None
-            for loc in WALLET_LOCKED_BEEDLE:
-                if loc not in self.banned:
-                    max_beedle = loc
+                    if any(
+                        hard_locked_crystals := self.filter_locked_by_items(
+                            CRYSTALS,
+                            banned_items,
+                        )
+                    ):
+                        # At least one crystal pack is hard-locked by this Batreaux level, which is the
+                        # highest Batreaux level with a useful item. This means none of the hard-locked
+                        # crystal packs can possibly be useful, and none of the crystal packs
+                        # later in Batreaux's rewards could be useful.
+                        can_reuse_first_pass = False
+                        for crystal in hard_locked_crystals + batreaux_crystals:
+                            items_to_remove.add(crystal)
+                            requirements[EXTENDED_ITEM[crystal]] = DNFInventory(False)
+
+                    # We can stop looking now, since either we found redundant crystal packs or there's a
+                    # useful item on Batreaux higher than any level that might hard-lock any crystal packs,
+                    # meaning those crystal packs are technically still useful to get this useful item
                     break
 
-            if max_beedle is not None:
-                if (
-                    item := self.placement.locations[
-                        self.areas.short_to_full(max_beedle)
-                    ]
-                ) in POTENTIALLY_USEFUL_ITEMS:
-                    for wallet in self.filter_locked_by_items(
-                        list(PROGRESSIVE_WALLETS.keys()) + list(EXTRA_WALLETS.keys()),
-                        [item],
+            # The same principle applies for Beedle if wallets are locked by something
+            # on medium/expensive purchases
+            beedle_wallets = []
+            for index, loc in enumerate(WALLET_LOCKED_BEEDLE):
+                shop_item = self.placement.locations[loc]
+                if shop_item in WALLETS:
+                    beedle_wallets.append(shop_item)
+                    continue
+
+                if shop_item in first_pass_usefuls:
+                    if any(
+                        hard_locked_wallets := self.filter_locked_by_items(
+                            WALLETS,
+                            [shop_item],
+                        )
                     ):
-                        # Wallets that logically come after the max Beedle shop item are redundant
-                        items_to_remove.add(wallet)
-                        requirements[EXTENDED_ITEM[wallet]] = DNFInventory(False)
+                        can_reuse_first_pass = False
+                        for wallet in hard_locked_wallets + beedle_wallets:
+                            items_to_remove.add(wallet)
+                            requirements[EXTENDED_ITEM[wallet]] = DNFInventory(False)
+
+                    break
 
         # Any redundant copies detected earlier will have been marked as impossible,
         # meaning they cannot be collected during aggregation.
         # This ensures that, for example, songs that lock only useless item copies
         # in silent realms may also be marked as not required.
+        if can_reuse_first_pass and first_pass_usefuls:
+            return first_pass_usefuls
+
         usefuls = self.aggregate_requirements(
             requirements,
             self.full_inventory,
@@ -481,18 +520,33 @@ class LogicUtils(Logic):
 
         return {k: dowse(v) for k, v in self.placement.locations.items()}
 
-    def get_importance_for_item(self, item):
-        # Skip trivially unrequired items
-        if item not in self.get_useful_items():
-            return HINT_IMPORTANCE.Null
-        # Then check if the item is SotS
-        if item in self.get_sots_items():
-            return HINT_IMPORTANCE.Required
-        # Then check if the item is considered useful for Demise; ultimately unrequired items will not count
-        elif item in self.get_useful_items(
+    def calculate_importance(self):
+        importance_map = {}
+        # Start with the lowest importance, then work our way up
+        for item in self.get_useful_items():
+            importance_map[item] = HINT_IMPORTANCE.NotRequired
+        for item in self.get_useful_items(
             EXTENDED_ITEM[self.short_to_full(DEMISE)], True
         ):
-            return HINT_IMPORTANCE.PossiblyRequired
-        # The item must now be not required
-        else:
-            return HINT_IMPORTANCE.NotRequired
+            importance_map[item] = HINT_IMPORTANCE.PossiblyRequired
+        for item in self.get_sots_items():
+            importance_map[item] = HINT_IMPORTANCE.Required
+        return importance_map
+
+    def get_importance_for_item(self, item):
+        return self.importance.get(item, HINT_IMPORTANCE.Null)
+
+    def test_importance_validity(self):
+        unrequired_items = [
+            item
+            for item in self.full_inventory.intset
+            if self.get_importance_for_item(EXTENDED_ITEM.get_item_name(item))
+            == HINT_IMPORTANCE.NotRequired
+        ]
+
+        # The seed should still be beatable with all "not required" items removed.
+        return self.restricted_test(
+            EXTENDED_ITEM[self.areas.short_to_full(DEMISE)],
+            unrequired_items,
+            self.inventory | HINT_BYPASS_BIT,
+        )
