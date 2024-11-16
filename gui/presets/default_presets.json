@@ -558,7 +558,8 @@
     "trial-treasure-amount": 3,
     "random-start-statues": true,
     "hint-importance": true,
-    "random-puzzles": false
+    "random-puzzles": false,
+    "ammo-availability": "Plentiful"
   },
   "Pre-S3 Variant": {
     "starting-tablet-count": 1,
@@ -721,6 +722,7 @@
     "trial-treasure-amount": 3,
     "random-start-statues": true,
     "hint-importance": true,
-    "random-puzzles": false
+    "random-puzzles": false,
+    "ammo-availability": "Plentiful"
   }
 }
