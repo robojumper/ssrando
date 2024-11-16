@@ -804,7 +804,8 @@
     - Strong Dowsing All Dungeons
     - Remlits Tournament
     - Fi & Gossip Stones
-    - Summer 2024 Weekly
+    - Pre-S3 Base
+    - Pre-S3 Variant
     - Custom
   default: Balanced
   help: "Determines the distribution of hints that appear on Gossip Stones.
