@@ -443,8 +443,49 @@ bl has_heart_drops_enabled
 .org 0x801bf4f8
 b game_update_hook
 
+.org 0x80160d90
+; skip p-interact 00
+blr
+
+.org 0x8015d300
+; skip p-interact 01
+blr
+
+.org 0x8015A790
+; skip p 00
+nop
+
+.org 0x8015F770
+; skip p 01
+nop
+
+.org 0x800D7B50
+; skip meter
+li r3, 1
+blr
+
+.org 0x8010DEE0
+; dont do it
+nop
+
+; no guide
+.org 0x8024619c
+nop
+.org 0x802461b0
+nop
+.org 0x802461d0
+nop
+.org 0x802461d4
+li r0, 0
+
 .close
 
+.open "d_lyt_file_selectNP.rel"
+.org 0x6530
+; no peeking
+blr
+
+.close
 
 
 .open "d_a_obj_time_door_beforeNP.rel"
