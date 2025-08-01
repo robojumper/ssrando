@@ -37,4 +37,9 @@ extern "C" {
         far: f32,
     );
     pub fn PSMTXIdentity(mtx: *mut Matrix34f);
+
+    pub fn sqrt__Q23EGG7Math_f_Ff(value: f32) -> f32;
+    pub fn atan2__Q23EGG7Math_f_Fff(y: f32, x: f32) -> f32;
+
+    pub static sRadToAng__4mAng: f32;
 }

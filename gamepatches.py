@@ -1565,6 +1565,7 @@ class GamePatcher:
         self.add_asm_patch("ss_necessary")
         self.add_asm_patch("custom_items")
         self.add_asm_patch("post_boko_base_platforms")
+        self.add_asm_patch("classic-controller")
         if self.placement_file.options["shopsanity"]:
             self.add_asm_patch("shopsanity")
         self.add_asm_patch("gossip_stone_hints")

@@ -377,6 +377,12 @@ b checkStoryflagIsSet
 .global game_update_hook
 .global add_ammo_drops
 .global remove_ammo_drops
+.global kpad_read_ex_wrapper
+.global get_aiming_stick_dir
+.global get_item_select_stick_dir
+.global calc_item_select_length_angle
+.global get_beetle_flying_zrot
+.global get_beetle_flying_yrot
 
 .close
 

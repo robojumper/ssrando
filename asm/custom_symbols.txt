@@ -15,30 +15,36 @@ main.dol:
   fix_custom_item_get: 0x806785C8
   check_scrapper_repaired: 0x8067867C
   storyflag_set_to_1: 0x8067868C
-  process_startflags: 0x806786BC
-  handle_bk_map_dungeonflag: 0x806788F0
-  rando_text_command_handler: 0x8067899C
-  textbox_a_pressed_or_b_held: 0x80678CCC
-  set_goddess_sword_pulled_scene_flag: 0x80678D0C
-  randomize_boss_key_start_pos: 0x80678D38
-  get_item_arc_name: 0x80678D64
-  get_item_model_name_ptr: 0x80678DA8
-  enforce_loftwing_speed_cap: 0x80678DE4
-  give_item_with_sceneflag: 0x80678EDC
-  get_start_info: 0x80678F6C
-  send_to_start: 0x80678F78
-  do_er_fixes: 0x80679000
-  allow_set_respawn_info: 0x80679314
-  get_glow_color: 0x8067933C
-  game_update_hook: 0x80679398
-  has_upgraded_skyward_strike: 0x806793A0
-  has_fast_air_meter_drain: 0x806793B0
-  has_heart_drops_enabled: 0x806793C0
-  add_ammo_drops: 0x806793D0
-  drop_nothing: 0x806794B8
-  get_tablet_keyframe_count: 0x806794F8
-  FORCE_MOGMA_CAVE_DIVE: 0x80679656
-  HERO_MODE_OPTIONS: 0x80679657
+  kpad_read_ex_wrapper: 0x806786BC
+  get_aiming_stick_dir: 0x806789B8
+  get_item_select_stick_dir: 0x806789F8
+  calc_item_select_length_angle: 0x80678A70
+  get_beetle_flying_zrot: 0x80678BC4
+  get_beetle_flying_yrot: 0x80678C60
+  process_startflags: 0x80678CF8
+  handle_bk_map_dungeonflag: 0x80678F2C
+  rando_text_command_handler: 0x80678FD8
+  send_to_start: 0x80679308
+  textbox_a_pressed_or_b_held: 0x80679390
+  set_goddess_sword_pulled_scene_flag: 0x806793D0
+  randomize_boss_key_start_pos: 0x806793FC
+  get_item_arc_name: 0x80679428
+  get_item_model_name_ptr: 0x8067946C
+  enforce_loftwing_speed_cap: 0x806794A8
+  give_item_with_sceneflag: 0x806795A0
+  get_start_info: 0x80679630
+  do_er_fixes: 0x8067963C
+  allow_set_respawn_info: 0x80679950
+  get_glow_color: 0x80679978
+  game_update_hook: 0x806799D4
+  has_upgraded_skyward_strike: 0x806799DC
+  has_fast_air_meter_drain: 0x806799EC
+  has_heart_drops_enabled: 0x806799FC
+  add_ammo_drops: 0x80679A0C
+  drop_nothing: 0x80679AF4
+  get_tablet_keyframe_count: 0x80679B34
+  FORCE_MOGMA_CAVE_DIVE: 0x80679CBD
+  HERO_MODE_OPTIONS: 0x80679CBE
 d_t_D3_scene_changeNP.rel:
   trigger_exit_one: 0x804
   trigger_exit_one_lbl: 0x340

@@ -5,6 +5,9 @@ main.dol:
     memset: 0x80004714
     memmove: 0x804c9ca4
     Math__approachF: 0x802decd0
+    sqrt__Q23EGG7Math_f_Ff: 0x8049ab60
+    atan2__Q23EGG7Math_f_Fff: 0x8049ac40
+    sRadToAng__4mAng: 0x8057cda8
     # --------------- FILE MANAGER-----------------------------
     # lwz r3,-0x4444(r13) ; FILE_MANAGER
     FileManager__getDungeonFlags: 0x8000a460
@@ -166,6 +169,12 @@ main.dol:
     iosAllocAligned: 0x804273e0
     iosFree: 0x804275f0
     IOS_HEAP: 0x80574d9c
+    # ----------------- input stuff ----------------------------------
+    sInstance__13dPadManager_c: 0x805751E8
+    g_currentCore__4mPad: 0x80575C58
+    convertDpdPosToScreenPos__4dPadFR7mVec2_cR7mVec2_c: 0x800553D0
+    LINK_ITEM_SELECT_ANY_SELECTED: 0x805757bc
+    KPADReadEx: 0x803F1820
 d_a_shop_sampleNP.rel:
     SHOP_ITEMS: 0x6D8C
 d_a_obj_time_boatNP.rel:

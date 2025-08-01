@@ -7,6 +7,7 @@ pub mod flag_managers;
 pub mod item;
 pub mod message;
 pub mod minigame;
+pub mod pad;
 pub mod player;
 pub mod reloader;
 pub mod save_file;

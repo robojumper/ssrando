@@ -28,6 +28,8 @@ use crate::{
     system::{button::*, math::*},
 };
 
+pub mod classic_controller;
+
 #[link_section = "data"]
 static mut IS_FILE_START: bool = false;
 
