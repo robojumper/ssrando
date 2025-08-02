@@ -9,9 +9,12 @@ use crate::{
         convertDpdPosToScreenPos__4dPadFR7mVec2_cR7mVec2_c, g_currentCore__4mPad, KPADReadEx,
         KPADStatus, WpadButton, WpadButtonCl, WpadDevType, LINK_ITEM_SELECT_ANY_SELECTED,
     },
-    system::math::{
-        atan2__Q23EGG7Math_f_Fff, cos__Q23EGG7Math_f_Ff, sRadToAng__4mAng, sin__Q23EGG7Math_f_Ff,
-        sqrt__Q23EGG7Math_f_Ff,
+    system::{
+        hbm,
+        math::{
+            atan2__Q23EGG7Math_f_Fff, cos__Q23EGG7Math_f_Ff, sRadToAng__4mAng,
+            sin__Q23EGG7Math_f_Ff, sqrt__Q23EGG7Math_f_Ff,
+        },
     },
 };
 
@@ -31,6 +34,12 @@ macro_rules! map_btn {
     }};
 }
 
+#[link_section = "data"]
+static mut RSTICK_HISTORY: [[f32; 2]; 120] = [[0.0; 2]; 120];
+
+#[link_section = "data"]
+static mut LAST_HBM_LSTICK: [f32; 2] = [0.0; 2];
+
 #[no_mangle]
 extern "C" fn kpad_read_ex_wrapper(
     chan: i32,
@@ -40,7 +49,29 @@ extern "C" fn kpad_read_ex_wrapper(
 ) -> i32 {
     let read_length = unsafe { KPADReadEx(chan, status, buf_size, kpad_result) };
 
+    // On the Home Button Menu, skip our input remapping and move the cursor
+    if hbm::is_hbm_active() {
+        if read_length > 0 {
+            unsafe {
+                if (*status).dev_type == WpadDevType::WPAD_DEV_CLASSIC as u8 {
+                    LAST_HBM_LSTICK = (*status).ex_status.cl.lstick;
+                    LAST_HBM_LSTICK[0] /= 100.0;
+                    LAST_HBM_LSTICK[1] /= -100.0;
+                }
+            }
+        }
+        hbm::delta_cursor_position(unsafe { LAST_HBM_LSTICK });
+        return read_length;
+    }
+
     if read_length > 0 {
+        // Shift values back, like in d_pad
+        for i in ((read_length as usize)..120).rev() {
+            unsafe {
+                RSTICK_HISTORY[i] = RSTICK_HISTORY[i - (read_length as usize)];
+            }
+        }
+
         for i in 0..(read_length as usize) {
             let this_status = status.wrapping_add(i);
             unsafe {
@@ -69,6 +100,8 @@ extern "C" fn kpad_read_ex_wrapper(
                     // Save anything that would be overwritten later when we clear sensor values,
                     // since the right stick is actually needed
                     (*this_status).ex_status.rd.rstick = (*this_status).ex_status.cl.rstick;
+
+                    RSTICK_HISTORY[i] = (*this_status).ex_status.cl.rstick;
 
                     // turns out that the game doesn't really care what type of extension is
                     // actually used; it unconditionally reads the Nunchuk values anyway.
@@ -180,7 +213,7 @@ extern "C" fn get_beetle_flying_yrot() -> i16 {
 }
 
 #[no_mangle]
-extern "C" fn get_sword_pointing_direction(_this: *mut c_void, dir: *mut [f32; 3]) {
+extern "C" fn get_sword_pointing_direction(_this: *mut c_void, dir: *mut [f32; 3]) -> bool {
     unsafe {
         let mut pos = [0.0; 2];
         if !g_currentCore__4mPad.is_null()
@@ -203,5 +236,51 @@ extern "C" fn get_sword_pointing_direction(_this: *mut c_void, dir: *mut [f32; 3
         (*dir)[0] = -sin__Q23EGG7Math_f_Ff(pos[0]) * cos__Q23EGG7Math_f_Ff(pos[1]);
         (*dir)[1] = sin__Q23EGG7Math_f_Ff(pos[1]);
         (*dir)[2] = cos__Q23EGG7Math_f_Ff(pos[0]) * cos__Q23EGG7Math_f_Ff(pos[1]);
+    }
+
+    // TODO not sure what this return value does
+    false
+}
+
+fn square_mag_2(vec2: &[f32; 2]) -> f32 {
+    vec2[0] * vec2[0] + vec2[1] * vec2[1]
+}
+
+fn dot_2(a: &[f32; 2], b: &[f32; 2]) -> f32 {
+    a[0] * b[0] + a[1] * b[1]
+}
+
+#[no_mangle]
+extern "C" fn calc_swing_direction(_this: *mut c_void, dir: *mut [f32; 3]) {
+    unsafe {
+        let mut pos = [0.0; 2];
+        let mut pos_x_samples_ago = [0.0; 2];
+        if !g_currentCore__4mPad.is_null()
+            && (*g_currentCore__4mPad).mCoreStatus[0].dev_type
+                == WpadDevType::WPAD_DEV_CLASSIC as u8
+        {
+            pos = RSTICK_HISTORY[0];
+            pos_x_samples_ago = RSTICK_HISTORY[6];
+        }
+
+        let this_mag = square_mag_2(&pos);
+        if
+        // Make sure our swing is significant
+        this_mag > 0.8
+            && (
+                // and we either change stick direction
+                dot_2(&pos, &pos_x_samples_ago) <= 0.0
+                // or swing outwards, not inwards
+                || this_mag > square_mag_2(&pos_x_samples_ago)
+            )
+        {
+            (*dir)[0] = (pos[1] - pos_x_samples_ago[1]) * -10.0;
+            (*dir)[1] = (pos[0] - pos_x_samples_ago[0]) * -10.0;
+        } else {
+            (*dir)[0] = 0.0;
+            (*dir)[1] = 0.0;
+        }
+
+        (*dir)[2] = 0.0;
     }
 }

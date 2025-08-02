@@ -171,6 +171,8 @@ main.dol:
     iosAllocAligned: 0x804273e0
     iosFree: 0x804275f0
     IOS_HEAP: 0x80574d9c
+    # ----------------- HBM -----------------------------------
+    s_pInstance__Q24dHbm8Manage_c: 0x805756F0
     # ----------------- input stuff ----------------------------------
     sInstance__13dPadManager_c: 0x805751E8
     g_currentCore__4mPad: 0x80575C58

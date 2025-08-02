@@ -7,6 +7,24 @@ nop
 nop
 nop
 
+; HBM - classic controller
+.org 0x80196ec8
+; skip overriding device type
+nop
+nop
+nop
+nop
+
+; skip writing cursor data
+.org 0x80196f24
+nop
+.org 0x80196f2c
+nop
+
+; TODO - if the Wiimote disconnects, the only way
+; to recover is to press HOME and then let the
+; calibration fail to a timeout (30s)
+
 ; dPad::ex_c::isMissingMpls()
 .org 0x80058BC0
 ; we finished MPLS calibration :)
@@ -59,9 +77,16 @@ bl get_beetle_flying_zrot
 .org 0x80263c40
 bl get_beetle_flying_yrot
 
+; TODO charging a skyward strike cannot be cancelled for some reason,
+; the moment the sword points up it will keep pointing up and continue
+; to point up for a bit after that...
 
 ; sword pointing
 .org 0x8021cb50
 b get_sword_pointing_direction
+
+; swinging
+.org 0x8023c724
+bl calc_swing_direction
 
 .close

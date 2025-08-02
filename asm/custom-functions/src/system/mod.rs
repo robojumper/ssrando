@@ -1,5 +1,6 @@
 pub mod button;
 pub mod gx;
+pub mod hbm;
 pub mod heap;
 pub mod ios;
 pub mod math;
