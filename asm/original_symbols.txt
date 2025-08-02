@@ -6,6 +6,8 @@ main.dol:
     memmove: 0x804c9ca4
     Math__approachF: 0x802decd0
     sqrt__Q23EGG7Math_f_Ff: 0x8049ab60
+    sin__Q23EGG7Math_f_Ff: 0x8049ABB0
+    cos__Q23EGG7Math_f_Ff: 0x8049ABE0
     atan2__Q23EGG7Math_f_Fff: 0x8049ac40
     sRadToAng__4mAng: 0x8057cda8
     # --------------- FILE MANAGER-----------------------------

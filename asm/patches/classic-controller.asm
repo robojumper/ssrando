@@ -59,4 +59,9 @@ bl get_beetle_flying_zrot
 .org 0x80263c40
 bl get_beetle_flying_yrot
 
+
+; sword pointing
+.org 0x8021cb50
+b get_sword_pointing_direction
+
 .close

@@ -1,4 +1,5 @@
 use core::{
+    f32::consts::PI,
     ffi::c_void,
     ptr::{addr_of, addr_of_mut},
 };
@@ -8,7 +9,10 @@ use crate::{
         convertDpdPosToScreenPos__4dPadFR7mVec2_cR7mVec2_c, g_currentCore__4mPad, KPADReadEx,
         KPADStatus, WpadButton, WpadButtonCl, WpadDevType, LINK_ITEM_SELECT_ANY_SELECTED,
     },
-    system::math::{atan2__Q23EGG7Math_f_Fff, sRadToAng__4mAng, sqrt__Q23EGG7Math_f_Ff},
+    system::math::{
+        atan2__Q23EGG7Math_f_Fff, cos__Q23EGG7Math_f_Ff, sRadToAng__4mAng, sin__Q23EGG7Math_f_Ff,
+        sqrt__Q23EGG7Math_f_Ff,
+    },
 };
 
 macro_rules! map_btn {
@@ -58,6 +62,9 @@ extern "C" fn kpad_read_ex_wrapper(
                     map_btn!(this_status, WPAD_BUTTON_CL_RIGHT, WPAD_BUTTON_RIGHT);
 
                     map_btn!(this_status, WPAD_BUTTON_CL_HOME, WPAD_BUTTON_HOME);
+
+                    map_btn!(this_status, WPAD_BUTTON_CL_PLUS, WPAD_BUTTON_1);
+                    map_btn!(this_status, WPAD_BUTTON_CL_MINUS, WPAD_BUTTON_2);
 
                     // Save anything that would be overwritten later when we clear sensor values,
                     // since the right stick is actually needed
@@ -169,5 +176,32 @@ extern "C" fn get_beetle_flying_yrot() -> i16 {
         }
 
         (rot * 16384.0) as i16
+    }
+}
+
+#[no_mangle]
+extern "C" fn get_sword_pointing_direction(_this: *mut c_void, dir: *mut [f32; 3]) {
+    unsafe {
+        let mut pos = [0.0; 2];
+        if !g_currentCore__4mPad.is_null()
+            && (*g_currentCore__4mPad).mCoreStatus[0].dev_type
+                == WpadDevType::WPAD_DEV_CLASSIC as u8
+        {
+            pos = (*g_currentCore__4mPad).mCoreStatus[0].ex_status.rd.rstick;
+        }
+
+        // transform [-1.0; 1.0]^2 into [-pi/2; pi/2]^2
+        pos[0] *= PI / 2.0;
+        pos[1] *= PI / 2.0;
+
+        // left = 1, 0, 0
+        // up = 0, 1, 0
+        // front = 0, 0, 1
+
+        // a bit of a weird way of turning spherical into cartesian coordinates
+        // since our angles use a different convention
+        (*dir)[0] = -sin__Q23EGG7Math_f_Ff(pos[0]) * cos__Q23EGG7Math_f_Ff(pos[1]);
+        (*dir)[1] = sin__Q23EGG7Math_f_Ff(pos[1]);
+        (*dir)[2] = cos__Q23EGG7Math_f_Ff(pos[0]) * cos__Q23EGG7Math_f_Ff(pos[1]);
     }
 }

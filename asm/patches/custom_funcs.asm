@@ -383,6 +383,7 @@ b checkStoryflagIsSet
 .global calc_item_select_length_angle
 .global get_beetle_flying_zrot
 .global get_beetle_flying_yrot
+.global get_sword_pointing_direction
 
 .close
 

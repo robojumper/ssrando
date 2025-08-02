@@ -39,6 +39,8 @@ extern "C" {
     pub fn PSMTXIdentity(mtx: *mut Matrix34f);
 
     pub fn sqrt__Q23EGG7Math_f_Ff(value: f32) -> f32;
+    pub fn sin__Q23EGG7Math_f_Ff(value: f32) -> f32;
+    pub fn cos__Q23EGG7Math_f_Ff(value: f32) -> f32;
     pub fn atan2__Q23EGG7Math_f_Fff(y: f32, x: f32) -> f32;
 
     pub static sRadToAng__4mAng: f32;
